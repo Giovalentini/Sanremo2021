@@ -1,0 +1,13 @@
+import pandas as pd
+sanremo_df = pd.read_csv("C:/Users/g.valentini/Documents/Sanremo/sanremo_df.csv")
+sanremo_df.drop(['Unnamed: 0','instrumentalness'],axis=1,inplace=True)
+
+X_train = sanremo_df[sanremo_df['year']!=2020].drop(['winner','song','artist'],axis=1)
+y_train = sanremo_df[sanremo_df['year']!=2020]['winner']
+X_test = sanremo_df[sanremo_df['year']==2020].drop(['winner','song','artist'],axis=1)
+y_test = sanremo_df[sanremo_df['year']==2020]['winner']
+
+from sklearn.linear_model import LogisticRegression
+logmodel = LogisticRegression()
+logmodel.fit(X_train,y_train)
+predictions = logmodel.predict_proba(X_test)
